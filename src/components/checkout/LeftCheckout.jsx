@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { updateInfo } from '../../services/customer';
 import { create as createOrder } from '../../services/order';
@@ -10,6 +11,9 @@ import { createIdFromDate } from '../../utils/format/formatDate';
 import DialogDelivery from '../deliveryAddress/DialogDelivery';
 import DialogListDelivery from '../deliveryAddress/DialogListDelivery';
 import AlertInfo from '../shared/Alert/AlertInfo';
+
+import { setSessionStorage } from '../../utils/storage/storage';
+import { sendOrder } from '../../services/email';
 
 export default function LeftCheckout({
   user,
@@ -38,14 +42,40 @@ export default function LeftCheckout({
       setDelivery(d);
     }
   }, [user]);
-
   const handlePayment = () => {
     if (!delivery) {
       toast.warning('Bạn cần có địa chỉ giao hàng.');
       return;
     }
     if (!paymentMethod) {
-      toast.warning('Bạn cần chọn phương thức thanh toán');
+      toast.warning('Bạn cần chọn phương thức thanh toán!');
+      return;
+    }
+    if (!user) {
+      toast.warning('Bạn cần đăng nhập để thực hiện thanh toán!');
+      return;
+    }
+    if (!user?.user?.verified) {
+      const CustomToastWithLink = () => (
+        <div>
+          Vì một số lý do, bạn cần{' '}
+          <Link
+            className='underline text-sky-600'
+            to={`/account/${user.path}/account-details`}
+          >
+            xác thực email
+          </Link>{' '}
+          để tiếp tục!
+        </div>
+      );
+      toast.info(CustomToastWithLink, {
+        autoClose: 8000,
+      });
+      return;
+    }
+    if (user.carts.length <= 0)
+    {
+      toast.warning('Bạn không có sản phẩm nào để thanh toán!');
       return;
     }
     const order = {
@@ -66,20 +96,33 @@ export default function LeftCheckout({
         orderDescription: `${user.user.username.toUpperCase()} THANH TOAN HOA DON `,
         orderType: 'fashion',
       })
-        .then((res) => window.open(res.vnpUrl, '_blank'))
+        .then((res) => {
+          setSessionStorage('order', order);
+          // createOrder(order)
+          //   .then(async (res) => {
+          //     user.carts = user.carts.filter((item) => !item.checked);
+          //     await updateInfo(user).then(() => navigate('/'));
+          //     if (paymentMethod !== 1)
+          //       return navigate(
+          //         `/payment/payment-return?vnp_TxnRef=${order.id}`
+          //       );
+          //   })
+          //   .catch((err) => toast.error(err.response.data.message));
+          window.open(res.vnpUrl, '_blank');
+        })
         .catch((err) => toast.error('Có Lỗi Xảy Ra.'));
     } else {
       order.payment_type = 'Thanh toán khi nhận hàng';
+      createOrder(order)
+        .then(async (res) => {
+          user.carts = user.carts.filter((item) => !item.checked);
+          await updateInfo(user);
+          await sendOrder({ email: user.user.email, orderId: order.id, orderLink: window.location.origin + '/account/orders/' + order.id });
+          if (paymentMethod !== 1)
+            return navigate(`/payment/payment-return?vnp_TxnRef=${order.id}`);
+        })
+        .catch((err) => toast.error(err.response.data.message));
     }
-
-    createOrder(order)
-      .then(async (res) => {
-        user.carts = [];
-        await updateInfo(user);
-        if (paymentMethod !== 1)
-          return navigate(`/payment/payment-return?vnp_TxnRef=${order.id}`);
-      })
-      .catch((err) => toast.error(err.response.data.message));
   };
 
   return (

@@ -1,5 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
+import { calculateDiscount } from '../../../utils/constrants/constrants';
 
 export default function FeaturedProduct({ featuredProducts }) {
   return (
@@ -44,7 +45,7 @@ export default function FeaturedProduct({ featuredProducts }) {
                   </div>
                   {item.discount && (
                     <span className='absolute top-3.5 md:top-5 3xl:top-7 start-3.5 md:start-5 3xl:start-7 bg-heading text-white text-10px md:text-sm leading-5 rounded-md inline-block px-2 xl:px-3 pt-0.5 pb-1'>
-                      {item.discount.percent}%{' '}
+                      {item?.discount?.discount_percent}%{' '}
                     </span>
                   )}
                   <div
@@ -60,20 +61,35 @@ export default function FeaturedProduct({ featuredProducts }) {
                       </p>
                     </div>
                     <div className='flex-shrink-0 flex flex-row-reverse md:flex-col lg:flex-row-reverse 2xl:flex-col items-center md:items-end lg:items-start 2xl:items-end justify-end md:text-end lg:text-start xl:text-end mt-2 md:-mt-0.5 lg:mt-2 2xl:-mt-0.5'>
-                      {item?.discount && (
-                        <del className='text-lg'>
+                      {item?.discount ? (
+                        <>
+                          <del className='text-xs md:text-sm'>
+                            {item?.min_price === item?.max_price
+                              ? `₫${item?.min_price}`
+                              : `₫${item?.min_price} - ₫${item?.max_price}`}
+                          </del>
+                          <div className='text-heading font-segoe font-semibold text-sm md:text-lg 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
+                            {item?.min_price === item?.max_price
+                              ? `₫${calculateDiscount(
+                                  item?.min_price,
+                                  item.discount.discount_percent
+                                )}`
+                              : `₫${calculateDiscount(
+                                  item?.min_price,
+                                  item.discount.discount_percent
+                                )} - ₫${calculateDiscount(
+                                  item?.max_price,
+                                  item.discount.discount_percent
+                                )}`}
+                          </div>
+                        </>
+                      ) : (
+                        <div className='text-heading font-segoe font-semibold text-sm md:text-lg 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
                           {item?.min_price === item?.max_price
-                            ? `₫${
-                                (item?.min_price * item?.discount.percent) / 100
-                              }`
+                            ? `₫${item?.min_price}`
                             : `₫${item?.min_price} - ₫${item?.max_price}`}
-                        </del>
+                        </div>
                       )}
-                      <div className='text-heading font-segoe font-semibold text-lg 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
-                        {item?.min_price === item?.max_price
-                          ? `₫${item?.min_price}`
-                          : `₫${item?.min_price} - ₫${item?.max_price}`}
-                      </div>
                     </div>
                   </div>
                 </Link>

@@ -9,7 +9,7 @@ import {
   getByProduct,
   remove,
 } from '../../services/review';
-import { formatDataTime2 } from '../../utils/format/formatDate';
+import { formatDateTime2 } from '../../utils/format/formatDate';
 import { reviewValidator } from '../../utils/validator/reviewValidator';
 import AlertDelete from '../shared/Alert/AlertDelete';
 import Hr from '../shared/hr/Hr';
@@ -314,7 +314,7 @@ export default function Review({ product, user, rating, setRating }) {
                         starSpacing='1px'
                       />
                       <div className='text-slate-400 text-xs mt-2'>
-                        <span>{formatDataTime2(item.createdAt)}</span> {' | '}{' '}
+                        <span>{formatDateTime2(item.createdAt)}</span> {' | '}{' '}
                         <span>Phân loại: {item.classify}</span>
                       </div>
                       <div className='mt-2'>{item.comment}</div>

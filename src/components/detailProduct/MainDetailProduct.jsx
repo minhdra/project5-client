@@ -12,13 +12,14 @@ import 'react-medium-image-zoom/dist/styles.css';
 import UserForm from '../user/UserForm';
 import { toast } from 'react-toastify';
 import Review from './Review';
+import { calculateDiscount } from '../../utils/constrants/constrants';
 
 export default function Main({ product, user, handleUpdateCustomerInfo }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
   const [indexColor, setIndexColor] = useState(0);
-  const [indexSize, setIndexSize] = useState();
+  const [indexSize, setIndexSize] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isCollapse, setIsCollapse] = useState(true);
   const [totalQuantity, setTotalQuantity] = useState(0);
@@ -30,10 +31,12 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
     if (product) {
       let total = 0;
       product.variants.forEach((item) => {
-        total += item.list_sizes.reduce(
-          (prev, curr) => prev + Number(curr.quantity),
-          0
-        );
+        if (item.has_size)
+          total += item.list_sizes.reduce(
+            (prev, curr) => prev + Number(curr.quantity),
+            0
+          );
+        else total += Number(item.quantityNoSize);
       });
 
       setTotalQuantity(total);
@@ -50,7 +53,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
         const product_name = product.product_name;
         const color = product.variants[indexColor].color;
         const hex = product.variants[indexColor].hex;
-        const size = product.variants[indexColor].list_sizes[indexSize].size;
+        const size = product.variants[indexColor].has_size ? product.variants[indexColor].list_sizes[indexSize].size : '';
         const product_price = product.variants[indexColor].sell_price;
         const thumbnail = product.thumbnail;
 
@@ -64,9 +67,11 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
             quantity,
             product_price,
             thumbnail,
+            checked: false,
           });
-        else {
-          if (carts[c].color === color && carts[0].size === size)
+        else
+        {
+          if (carts[c].color === color && carts[c].size === size)
             carts[c].quantity += quantity;
           else if (carts[c].color !== color)
             carts.push({
@@ -224,111 +229,132 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
                 <Skeleton width={400} height={30} />
               )}
             </h2>
-            <Review product={product} user={user} rating={rating} setRating={setRating} />
+            <Review
+              product={product}
+              user={user}
+              rating={rating}
+              setRating={setRating}
+            />
           </div>
         </div>
         <div className='col-span-4 pt-8 lg:pt-0'>
           <div className='pb-7 mb-7 border-b border-gray-300'>
             <h2 className='text-heading text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold hover:text-black mb-3.5'>
-              {product?.product_name ?? <Skeleton width={400} height={30} />}
+              {(product?.product_name) ?? <Skeleton width={400} height={30} />}
             </h2>
             <p className='text-body text-sm lg:text-base leading-6 lg:leading-8'>
               {product ? <span></span> : <Skeleton count={5} />}
             </p>
-            <div className='flex items-center mt-5'>
-              {product?.min_price ? (
+            <div className='flex gap-2 items-center mt-5'>
+              {product?.discount ? (
                 <>
-                  {product?.discount && (
-                    <del className='text-lg'>
-                      {product?.min_price === product?.max_price
-                        ? `₫${
-                            (product?.min_price * product?.discount.percent) /
-                            100
-                          }`
-                        : `₫${product?.min_price} - ₫${product?.max_price}`}
-                    </del>
-                  )}
-                  <div className='text-heading font-segoe font-semibold text-lg 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
+                  <del className='text-sm'>
                     {product?.min_price === product?.max_price
                       ? `₫${product?.min_price}`
                       : `₫${product?.min_price} - ₫${product?.max_price}`}
+                  </del>
+                  <div className='text-heading font-segoe font-semibold text-lg 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
+                    {product?.min_price === product?.max_price
+                      ? `₫${calculateDiscount(
+                          product?.min_price,
+                          product.discount.discount_percent
+                        )}`
+                      : `₫${calculateDiscount(
+                          product?.min_price,
+                          product.discount.discount_percent
+                        )} - ₫${calculateDiscount(
+                          product?.max_price,
+                          product.discount.discount_percent
+                        )}`}
                   </div>
                 </>
               ) : (
-                <Skeleton width={400} height={23} />
+                <div className='text-heading font-segoe font-semibold text-lg 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
+                  {product?.min_price === product?.max_price
+                    ? `₫${product?.min_price}`
+                    : `₫${product?.min_price} - ₫${product?.max_price}`}
+                </div>
               )}
             </div>
           </div>
           <div className='pb-3 border-b border-gray-300'>
-            <div className='mb-4'>
-              <h3 className='text-base md:text-lg text-heading font-semibold mb-2.5 capitalize'>
-                {product && product.variants ? (
-                  'Kích Thước'
-                ) : (
-                  <Skeleton width={400} height={30} />
-                )}
-              </h3>
-              <ul className='colors flex flex-wrap -me-3'>
-                {product && product.variants ? (
-                  product.variants[indexColor].list_sizes.map((item, index) => (
-                    <button
-                      key={index}
-                      className={
-                        'cursor-pointer rounded border border-gray-300 w-9 md:w-11 h-9 md:h-11 p-1 mb-2 md:mb-3 me-2 md:me-3 flex justify-center items-center text-heading text-xs md:text-sm uppercase font-semibold transition duration-200 ease-in-out hover:border-black ' +
-                        (indexSize === index ? 'border-black' : '') +
-                        (item.quantity <= 0
-                          ? ' cursor-not-allowed hover:cursor-not-allowed bg-slate-200'
-                          : '')
-                      }
-                      disabled={item.quantity <= 0}
-                      onClick={() => setIndexSize(index)}
-                    >
-                      {item.size}
-                    </button>
-                  ))
-                ) : (
-                  <>
-                    <Skeleton width={400} height={50} />
-                  </>
-                )}
-              </ul>
-            </div>
-            <div className='mb-4'>
-              <h3 className='text-base md:text-lg text-heading font-semibold mb-2.5 capitalize'>
-                {product && product.variants ? (
-                  'Màu'
-                ) : (
-                  <Skeleton width={400} height={30} />
-                )}
-              </h3>
-              <ul className='colors flex flex-wrap -me-3'>
-                {product && product.variants ? (
-                  product.variants.map((item, index) => (
-                    <li
-                      key={index}
-                      className={
-                        'cursor-pointer rounded border border-gray-300 w-9 md:w-11 h-9 md:h-11 p-1 mb-2 md:mb-3 me-2 md:me-3 flex justify-center items-center text-heading text-xs md:text-sm uppercase font-semibold transition duration-200 ease-in-out hover:border-black ' +
-                        (indexColor === index ? 'border-black' : '')
-                      }
-                      title={item.color}
-                      onClick={() => {
-                        setIndexColor(index);
-                        setIndexSize();
-                      }}
-                    >
-                      <span
-                        className='h-full w-full rounded block'
-                        style={{ backgroundColor: item.hex }}
-                      ></span>
-                    </li>
-                  ))
-                ) : (
-                  <>
-                    <Skeleton width={400} height={50} />
-                  </>
-                )}
-              </ul>
-            </div>
+            {product && product?.variants[indexColor]?.has_size ? (
+              <>
+                <div className='mb-4'>
+                  <h3 className='text-base md:text-lg text-heading font-semibold mb-2.5 capitalize'>
+                    {product && product.variants ? (
+                      'Kích Thước'
+                    ) : (
+                      <Skeleton width={400} height={30} />
+                    )}
+                  </h3>
+                  <ul className='colors flex flex-wrap -me-3'>
+                    {product && product.variants ? (
+                      product.variants[indexColor].list_sizes.map(
+                        (item, index) => (
+                          <button
+                            key={index}
+                            className={
+                              'cursor-pointer rounded border border-gray-300 w-9 md:w-11 h-9 md:h-11 p-1 mb-2 md:mb-3 me-2 md:me-3 flex justify-center items-center text-heading text-xs md:text-sm uppercase font-semibold transition duration-200 ease-in-out hover:border-black ' +
+                              (indexSize === index ? 'border-black' : '') +
+                              (item.quantity <= 0
+                                ? ' cursor-not-allowed hover:cursor-not-allowed bg-slate-200'
+                                : '')
+                            }
+                            disabled={item.quantity <= 0}
+                            onClick={() => setIndexSize(index)}
+                          >
+                            {item.size}
+                          </button>
+                        )
+                      )
+                    ) : (
+                      <>
+                        <Skeleton width={400} height={50} />
+                      </>
+                    )}
+                  </ul>
+                </div>
+                <div className='mb-4'>
+                  <h3 className='text-base md:text-lg text-heading font-semibold mb-2.5 capitalize'>
+                    {product && product.variants ? (
+                      'Màu'
+                    ) : (
+                      <Skeleton width={400} height={30} />
+                    )}
+                  </h3>
+                  <ul className='colors flex flex-wrap -me-3'>
+                    {product && product.variants ? (
+                      product.variants.map((item, index) => (
+                        <li
+                          key={index}
+                          className={
+                            'cursor-pointer rounded border border-gray-300 w-9 md:w-11 h-9 md:h-11 p-1 mb-2 md:mb-3 me-2 md:me-3 flex justify-center items-center text-heading text-xs md:text-sm uppercase font-semibold transition duration-200 ease-in-out hover:border-black ' +
+                            (indexColor === index ? 'border-black' : '')
+                          }
+                          title={item.color}
+                          onClick={() => {
+                            setIndexColor(index);
+                            setIndexSize(0);
+                          }}
+                        >
+                          <span
+                            className='h-full w-full rounded block'
+                            style={{ backgroundColor: item.hex }}
+                          ></span>
+                        </li>
+                      ))
+                    ) : (
+                      <>
+                        <Skeleton width={400} height={50} />
+                      </>
+                    )}
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
             <div className='mb-4'>
               <span className='text-black font-semibold'>
                 {product && product?.variants[indexColor] ? (
@@ -369,37 +395,71 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
               <span className='font-semibold flex items-center justify-center h-full  transition-colors duration-250 ease-in-out cursor-default flex-shrink-0 text-base text-heading w-12  md:w-20 xl:w-24'>
                 {quantity}
               </span>
-              <button
-                className='flex items-center justify-center h-full flex-shrink-0 transition ease-in-out duration-300 focus:outline-none w-10 md:w-12 text-heading border-s border-gray-300 hover:text-white hover:bg-heading'
-                disabled={
-                  quantity >=
-                  product?.variants[indexColor]?.list_sizes[indexSize]?.quantity
-                }
-                onClick={() => setQuantity(quantity + 1)}
-              >
-                <svg
-                  data-name='plus (2)'
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='12px'
-                  height='12px'
-                  viewBox='0 0 12 12'
+              {product?.variants[indexColor]?.has_size ? (
+                <button
+                  className='flex items-center justify-center h-full flex-shrink-0 transition ease-in-out duration-300 focus:outline-none w-10 md:w-12 text-heading border-s border-gray-300 hover:text-white hover:bg-heading'
+                  disabled={
+                    quantity >=
+                    product?.variants[indexColor]?.list_sizes[indexSize]
+                      ?.quantity
+                  }
+                  onClick={() => setQuantity(quantity + 1)}
                 >
-                  <g data-name='Group 5367'>
-                    <path
-                      data-name='Path 17138'
-                      d='M6.749,5.251V0h-1.5V5.251H0v1.5H5.251V12h1.5V6.749H12v-1.5Z'
-                      fill='currentColor'
-                    ></path>
-                  </g>
-                </svg>
-              </button>
+                  <svg
+                    data-name='plus (2)'
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='12px'
+                    height='12px'
+                    viewBox='0 0 12 12'
+                  >
+                    <g data-name='Group 5367'>
+                      <path
+                        data-name='Path 17138'
+                        d='M6.749,5.251V0h-1.5V5.251H0v1.5H5.251V12h1.5V6.749H12v-1.5Z'
+                        fill='currentColor'
+                      ></path>
+                    </g>
+                  </svg>
+                </button>
+              ) : (
+                <button
+                  className='flex items-center justify-center h-full flex-shrink-0 transition ease-in-out duration-300 focus:outline-none w-10 md:w-12 text-heading border-s border-gray-300 hover:text-white hover:bg-heading'
+                  disabled={
+                    quantity >= product?.variants[indexColor]?.quantityNoSize
+                  }
+                  onClick={() => setQuantity(quantity + 1)}
+                >
+                  <svg
+                    data-name='plus (2)'
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='12px'
+                    height='12px'
+                    viewBox='0 0 12 12'
+                  >
+                    <g data-name='Group 5367'>
+                      <path
+                        data-name='Path 17138'
+                        d='M6.749,5.251V0h-1.5V5.251H0v1.5H5.251V12h1.5V6.749H12v-1.5Z'
+                        fill='currentColor'
+                      ></path>
+                    </g>
+                  </svg>
+                </button>
+              )}
             </div>
-            <span>
-              {indexSize >= 0
-                ? product?.variants[indexColor]?.list_sizes[indexSize]
-                    ?.quantity + ' sản phẩm có sẵn'
-                : ''}
-            </span>
+            {product?.variants[indexColor]?.has_size ? (
+              <span>
+                {indexSize >= 0
+                  ? product?.variants[indexColor]?.list_sizes[indexSize]
+                      ?.quantity + ' sản phẩm có sẵn'
+                  : ''}
+              </span>
+            ) : (
+              <span>
+                {product?.variants[indexColor]?.quantityNoSize +
+                  ' sản phẩm có sẵn'}
+              </span>
+            )}
           </div>
           <div className='flex items-center space-s-4 md:pe-32 lg:pe-12 2xl:pe-32 3xl:pe-48 border-b border-gray-300 py-8'>
             <button
@@ -469,9 +529,14 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
                 </span>
                 <Link
                   className='transition underline hover:no-underline hover:text-heading'
-                  to={`/category/${product?.category?.path}${product?.category_sub ? '?sub=' + product?.category_sub?.path : ''}`}
+                  to={`/category/${product?.category?.path}${
+                    product?.category_sub
+                      ? '?sub=' + product?.category_sub?.path
+                      : ''
+                  }`}
                 >
-                  {product?.category_sub?.sub_category_name || product?.category?.category_name}
+                  {product?.category_sub?.sub_category_name ||
+                    product?.category?.category_name}
                 </Link>
               </li>
               <li>

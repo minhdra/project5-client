@@ -4,6 +4,12 @@ import './assets/css/app.css';
 
 // Layouts
 import ClientLayout from './layouts/Client';
+
+// Pages
+import Account from './pages/account/Account';
+import AccountDetailPage from './pages/account/AccountDetailPage';
+import AccountOrderPage from './pages/account/AccountOrderPage';
+import AccountPasswordPage from './pages/account/AccountPasswordPage';
 import Brand from './pages/Brand';
 import Category from './pages/Category';
 import Checkout from './pages/Checkout';
@@ -16,6 +22,7 @@ import PaymentReturn from './pages/PaymentReturn';
 import Privacy from './pages/Privacy';
 import Products from './pages/Products';
 import Page404 from './pages/shared/404';
+import TrackOrder from './pages/TrackOrder';
 import Verify from './pages/Verify';
 
 function App() {
@@ -32,18 +39,68 @@ function App() {
           {/* add routes with layouts */}
           <Route element={<ClientLayout />}>
             <Route index path='/' element={<Home setTitle={setTitle} />} />
-            <Route path='/collections/:slug' element={<Collection setTitle={setTitle} />} />
-            <Route path='/category/:slug' element={<Category setTitle={setTitle} />} />
-            <Route path='/products' element={<Products setTitle={setTitle} />} />
-            <Route path='/products/:slug' element={<DetailProduct setTitle={setTitle} />} />
-            <Route path='/account/verify' element={<Verify setTitle={setTitle} />} />
-            <Route path='/checkout' element={<Checkout setTitle={setTitle} />} />
-            <Route path='/payment/payment-return' element={<PaymentReturn setTitle={setTitle} />} />
+            <Route
+              path='/collections/:slug'
+              element={<Collection setTitle={setTitle} />}
+            />
+            <Route
+              path='/category/:slug'
+              element={<Category setTitle={setTitle} />}
+            />
+            <Route
+              path='/products'
+              element={<Products setTitle={setTitle} />}
+            />
+            <Route
+              path='/products/:slug'
+              element={<DetailProduct setTitle={setTitle} />}
+            />
+            <Route
+              path='/account/verify'
+              element={<Verify setTitle={setTitle} />}
+            />
+            <Route
+              path='/checkout'
+              element={<Checkout setTitle={setTitle} />}
+            />
+            <Route
+              path='/payment/payment-return'
+              element={<PaymentReturn setTitle={setTitle} />}
+            />
+            <Route
+              path='/account/:slug'
+              element={<Account setTitle={setTitle} />}
+            />
+            <Route
+              path='/account/:slug/my-orders'
+              element={<AccountOrderPage setTitle={setTitle} />}
+            />
+            <Route
+              path='/account/:slug/account-details'
+              element={<AccountDetailPage setTitle={setTitle} />}
+            />
+            <Route
+              path='/account/:slug/change-password'
+              element={<AccountPasswordPage setTitle={setTitle} />}
+            />
+            <Route
+              path='/account/orders/:slug'
+              element={<TrackOrder setTitle={setTitle} />}
+            />
             <Route path='/brands' element={<Brand setTitle={setTitle} />} />
-            <Route path='/pages/contact-us' element={<Contact setTitle={setTitle} />} />
+            <Route
+              path='/pages/contact-us'
+              element={<Contact setTitle={setTitle} />}
+            />
             <Route path='/pages/faq' element={<Faq setTitle={setTitle} />} />
-            <Route path='/pages/privacy' element={<Privacy setTitle={setTitle} />} />
-            <Route path='/pages/terms' element={<Privacy setTitle={setTitle} />} />
+            <Route
+              path='/pages/privacy'
+              element={<Privacy setTitle={setTitle} />}
+            />
+            <Route
+              path='/pages/terms'
+              element={<Privacy setTitle={setTitle} />}
+            />
             <Route
               path='/not-found'
               element={<Page404 setTitle={setTitle} />}

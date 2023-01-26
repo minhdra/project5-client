@@ -21,6 +21,11 @@ export default function Category({ setTitle }) {
   const [subCategory, setSubCategory] = useState();
   const [products, setProducts] = useState([]);
 
+  const [optionSearch, setOptionSearch] = useState({
+    page: 1,
+    pageSize: 10,
+  });
+
   useEffect(() => {
     setTitle(
       'Draco - Danh Mục ' +
@@ -40,7 +45,8 @@ export default function Category({ setTitle }) {
         .then((res) => {
           setSubCategory();
           setCategory(res);
-          handleSearchProducts({ category: res.id });
+          optionSearch.category = res.id;
+          handleSearchProducts(optionSearch);
         })
         .catch((err) => toast.error(err.response.data.message));
     else {
@@ -48,11 +54,12 @@ export default function Category({ setTitle }) {
         .then((res) => {
           setCategory();
           setSubCategory(res);
-          handleSearchProducts({ category_sub: res.id });
+          optionSearch.category_sub = res.id;
+          handleSearchProducts(optionSearch);
         })
         .catch((err) => toast.error(err.response.data.message));
     }
-  }, [params, searchParams, handleSearchProducts]);
+  }, [params, searchParams, handleSearchProducts, optionSearch]);
 
   return (
     <>
@@ -62,7 +69,7 @@ export default function Category({ setTitle }) {
             name={category?.category_name || subCategory?.sub_category_name}
           />
 
-          <Main products={products} />
+          <Main products={products} optionSearch={optionSearch} setOptionSearch={setOptionSearch} />
 
           <Subscribe
             classes={

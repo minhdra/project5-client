@@ -4,6 +4,14 @@ export const sendContact = async (data) => (await instance.post('/email/send-con
   ...data
 }));
 
+export const sendSubscribe = async (data) => (await instance.post('/email/send-subscribe', {
+  ...data
+}));
+
+export const sendOrder = async (data) => (await instance.post('/email/send-order', {
+  ...data
+}));
+
 export const verifyAccount = async (data) => (await instance.post('/email/verify-account', {
   ...data
 }));

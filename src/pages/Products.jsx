@@ -19,13 +19,18 @@ export default function Products({ setTitle }) {
   const [products, setProducts] = useState();
 
   const { categories } = useOutletContext();
-  
+
   const [brands, setBrands] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedBrand, setSelectedBrand] = useState();
   const [priceFilter, setPriceFilter] = useState('');
   const [sortSelected, setSortSelected] = useState('');
   const [showFilterMobile, setShowFilterMobile] = useState(false);
+
+  const [optionSearch, setOptionSearch] = useState({
+    page: 1,
+    pageSize: 10,
+  });
 
   useEffect(() => {
     setTitle('Draco - Sản Phẩm');
@@ -36,15 +41,12 @@ export default function Products({ setTitle }) {
   }, []);
 
   useEffect(() => {
-    searchProducts({
-      page: 1,
-      pageSize: 10,
-      category: selectedCategory?.id,
-      brand: selectedBrand?.id,
-      priceFilter,
-      sort: sortSelected?.value ?? '',
-    }).then((res) => setProducts(res));
-  }, [selectedBrand, selectedCategory, priceFilter, sortSelected]);
+    optionSearch.category = selectedCategory?.id;
+    optionSearch.brand = selectedBrand?.id;
+    optionSearch.priceFilter = priceFilter;
+    optionSearch.sort = sortSelected?.value ?? '';
+    searchProducts(optionSearch).then((res) => setProducts(res));
+  }, [selectedBrand, selectedCategory, priceFilter, sortSelected, optionSearch]);
 
   useEffect(() => {
     searchBrands().then((res) => setBrands(res));
@@ -70,6 +72,8 @@ export default function Products({ setTitle }) {
           />
           <Main
             products={products}
+            optionSearch={optionSearch}
+            setOptionSearch={setOptionSearch}
             sortSelected={sortSelected}
             setSortSelected={setSortSelected}
             setShowFilterMobile={setShowFilterMobile}

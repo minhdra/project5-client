@@ -4,6 +4,7 @@ import Empty from '../shared/empty/Empty';
 import { Listbox, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { useEffect } from 'react';
+import { calculateDiscount } from '../../utils/constrants/constrants';
 
 const listSort = [
   {
@@ -32,10 +33,24 @@ const listSort = [
   },
 ];
 
-export default function Main({ products, sortSelected, setSortSelected, setShowFilterMobile }) {
+export default function Main({
+  products,
+  optionSearch,
+  setOptionSearch,
+  sortSelected,
+  setSortSelected,
+  setShowFilterMobile,
+}) {
   useEffect(() => {
     setSortSelected(listSort[0]);
   }, [setSortSelected]);
+
+  const handleLoadMore = () => {
+    setOptionSearch({
+      ...optionSearch,
+      pageSize: optionSearch.pageSize + 5,
+    }) 
+  }
 
   return (
     <>
@@ -44,7 +59,8 @@ export default function Main({ products, sortSelected, setSortSelected, setShowF
           <h1 className='text-heading text-2xl font-bold hidden lg:inline-flex pb-1'>
             {products ? 'Draco' : <Skeleton height={30} width={150} />}
           </h1>
-          <button className='lg:hidden text-heading text-sm px-4 py-2 font-semibold border border-gray-300 rounded-md flex items-center transition duration-200 ease-in-out focus:outline-none hover:bg-gray-200'
+          <button
+            className='lg:hidden text-heading text-sm px-4 py-2 font-semibold border border-gray-300 rounded-md flex items-center transition duration-200 ease-in-out focus:outline-none hover:bg-gray-200'
             onClick={() => setShowFilterMobile(true)}
           >
             <svg
@@ -208,7 +224,7 @@ export default function Main({ products, sortSelected, setSortSelected, setShowF
                   </div>
                   {item.discount && (
                     <span className='absolute top-3.5 md:top-5 3xl:top-7 start-3.5 md:start-5 3xl:start-7 bg-heading text-white text-10px md:text-sm leading-5 rounded-md inline-block px-2 xl:px-3 pt-0.5 pb-1'>
-                      {item.discount.percent}%{' '}
+                      {item.discount.discount_percent}%{' '}
                     </span>
                   )}
                   <div className='w-full overflow-hidden p-2 md:px-2.5 xl:px-4'>
@@ -218,21 +234,36 @@ export default function Main({ products, sortSelected, setSortSelected, setShowF
                     <p className='text-body text-xs lg:text-sm leading-normal xl:leading-relaxed max-w-[250px] truncate'>
                       Thương Hiệu: {item.brand?.brand_name}
                     </p>
-                    <div className='font-semibold text-sm mt-1.5 space-s-2 lg:text-lg lg:mt-2.5 first-letter:text-heading'>
-                      {item?.discount && (
-                        <del className='text-lg'>
+                    <div className='font-semibold text-sm mt-1.5 lg:text-lg lg:mt-2.5 first-letter:text-heading'>
+                      {item?.discount ? (
+                        <>
+                          <del className='text-xs md:text-sm'>
+                            {item?.min_price === item?.max_price
+                              ? `₫${item?.min_price}`
+                              : `₫${item?.min_price} - ₫${item?.max_price}`}
+                          </del>
+                          <div className='text-heading font-segoe font-semibold text-sm md:text-lg 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
+                            {item?.min_price === item?.max_price
+                              ? `₫${calculateDiscount(
+                                  item?.min_price,
+                                  item.discount.discount_percent
+                                )}`
+                              : `₫${calculateDiscount(
+                                  item?.min_price,
+                                  item.discount.discount_percent
+                                )} - ₫${calculateDiscount(
+                                  item?.max_price,
+                                  item.discount.discount_percent
+                                )}`}
+                          </div>
+                        </>
+                      ) : (
+                        <div className='text-heading font-segoe font-semibold text-sm md:text-lg 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
                           {item?.min_price === item?.max_price
-                            ? `₫${
-                                (item?.min_price * item?.discount.percent) / 100
-                              }`
+                            ? `₫${item?.min_price}`
                             : `₫${item?.min_price} - ₫${item?.max_price}`}
-                        </del>
+                        </div>
                       )}
-                      <div className='text-heading font-segoe font-semibold text-base 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0 text-red-600'>
-                        {item?.min_price === item?.max_price
-                          ? `₫${item?.min_price}`
-                          : `₫${item?.min_price} - ₫${item?.max_price}`}
-                      </div>
                     </div>
                   </div>
                 </Link>
@@ -252,8 +283,9 @@ export default function Main({ products, sortSelected, setSortSelected, setShowF
           <button
             data-variant='slim'
             className='text-[13px] md:text-sm leading-4 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold font-body text-center justify-center border-0 border-transparent placeholder-white focus-visible:outline-none focus:outline-none rounded-md  h-11 md:h-12 px-5 bg-heading text-white py-2 transform-none normal-case hover:text-white hover:bg-gray-600 hover:shadow-cart'
+            onClick={handleLoadMore}
           >
-            Xem Thêm 
+            Xem Thêm
           </button>
         </div>
       </div>

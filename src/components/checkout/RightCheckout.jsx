@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 export default function RightCheckout({ user, total }) {
@@ -17,25 +18,27 @@ export default function RightCheckout({ user, total }) {
           <div>
             {user ? (
               user.carts.map((item, index) => (
-                <div key={index} className='flex py-4 items-center lg:px-3 border-b border-gray-300'>
-                  <div className='flex border rounded-md border-gray-300 w-16 h-16 flex-shrink-0'>
-                    <img
-                      alt=''
-                      src={item.thumbnail}
-                      width='64'
-                      height='64'
-                      className='object-cover'
-                    />
+                item.checked ? (
+                  <div key={index} className='flex py-4 items-center lg:px-3 border-b border-gray-300'>
+                    <div className='flex border rounded-md border-gray-300 w-16 h-16 flex-shrink-0'>
+                      <img
+                        alt=''
+                        src={item.thumbnail}
+                        width='64'
+                        height='64'
+                        className='object-cover'
+                      />
+                    </div>
+                    <h6 className='flex flex-col ps-3 text-heading'>
+                      <span className='font-semibold mr-2'>{item.product_name}</span>
+                      <span className='text-sm'>Phân loại: {item.color}, {item.size}</span>
+                      <span className='text-sm'>Số lượng: {item.quantity}</span>
+                    </h6>
+                    <div className='flex ms-auto text-heading text-sm ps-2 flex-shrink-0'>
+                      ₫{(Number(item.product_price) * item.quantity).toLocaleString('en')}
+                    </div>
                   </div>
-                  <h6 className='flex flex-col ps-3 text-heading'>
-                    <span className='font-semibold mr-2'>{item.product_name}</span>
-                    <span className='text-sm'>Phân loại: {item.color}, {item.size}</span>
-                    <span className='text-sm'>Số lượng: {item.quantity}</span>
-                  </h6>
-                  <div className='flex ms-auto text-heading text-sm ps-2 flex-shrink-0'>
-                    ₫{(item.product_price * item.quantity).toLocaleString('en')}
-                  </div>
-                </div>
+                ) : (<Fragment key={index}></Fragment>)
               ))
             ) : (
               <div className='flex py-4 items-start lg:px-3 gap-2'>

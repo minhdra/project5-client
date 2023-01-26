@@ -228,7 +228,7 @@ export default function DialogDelivery({
                       </h3>
                     </div>
                     <OverlayScrollbarsComponent
-                      className='mt-4 mb-4 px-2 flex-1'
+                      className='mt-4 mb-4 px-2 flex-1 max-h-[64vh]'
                       options={{ scrollbars: { autoHide: true } }}
                       defer
                     >

@@ -29,7 +29,7 @@ export default function SignUp({
 
     const data = {
       email,
-      username,
+      username: username.trim(),
       password,
       role: 2,
     };
@@ -58,9 +58,14 @@ export default function SignUp({
             icon: '🚀',
           });
           setTimeout(() => {
-            toast.info('Chúng tôi đã gửi một yêu cầu xác minh tài khoản đến email: ' + data.email + ' của bạn.', {
-              icon: '🦄'
-            })
+            toast.info(
+              'Chúng tôi đã gửi một yêu cầu xác minh tài khoản đến email: ' +
+                data.email +
+                ' của bạn.',
+              {
+                icon: '🦄',
+              }
+            );
           }, 500);
           verifyAccount({
             email: data.email,
@@ -247,7 +252,9 @@ export default function SignUp({
                             <label
                               htmlFor='password'
                               className='block text-gray-600 font-semibold text-sm leading-none mb-3 cursor-pointer'
-                            ></label>
+                            >
+                              Mật Khẩu
+                            </label>
                             <div className='relative'>
                               <input
                                 id='password'
@@ -322,7 +329,7 @@ export default function SignUp({
                           Hoặc
                         </span>
                       </div>
-                      <button
+                      {/* <button
                         data-variant='flat'
                         className='text-[13px] md:text-sm leading-4 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold font-body text-center justify-center border-0 border-transparent placeholder-white focus-visible:outline-none focus:outline-none rounded-md  bg-heading text-white px-5 md:px-6 lg:px-8 py-4 md:py-3.5 lg:py-4 hover:text-white hover:bg-gray-600 hover:shadow-cart h-11 md:h-12 w-full mt-2.5 bg-facebook hover:bg-facebookHover'
                       >
@@ -359,7 +366,7 @@ export default function SignUp({
                           <path d='M14.5 0h-13c-0.825 0-1.5 0.675-1.5 1.5v13c0 0.825 0.675 1.5 1.5 1.5h13c0.825 0 1.5-0.675 1.5-1.5v-13c0-0.825-0.675-1.5-1.5-1.5zM8.119 14c-3.316 0-6-2.684-6-6s2.684-6 6-6c1.619 0 2.975 0.591 4.019 1.569l-1.628 1.569c-0.447-0.428-1.225-0.925-2.391-0.925-2.050 0-3.719 1.697-3.719 3.787s1.672 3.787 3.719 3.787c2.375 0 3.266-1.706 3.403-2.588h-3.403v-2.056h5.666c0.050 0.3 0.094 0.6 0.094 0.994 0.003 3.428-2.294 5.863-5.759 5.863z'></path>
                         </svg>
                         Đăng Nhập Với Google
-                      </button>
+                      </button> */}
                       <div className='text-sm sm:text-base text-body text-center mt-5 mb-1'>
                         Bạn Đã Có Tài Khoản?{' '}
                         <button

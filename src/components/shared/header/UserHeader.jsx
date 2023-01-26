@@ -14,10 +14,17 @@ export default function UserHeader({
         <>
           <Menu as={'div'} className='relative inline-block'>
             <Menu.Button
-              className='w-[45px] h-[45px] bg-gray-100 cursor-pointer rounded-full overflow-hidden border shadow-md transition-all hover:brightness-90'
+              className='cursor-pointer overflow-hidden flex items-center gap-2 hover:brightness-90'
               title={user.first_name || storage?.path}
             >
-              <img alt='avatar' src={user.avatar} />
+              <img
+                alt='avatar'
+                src={user.avatar}
+                className='w-[45px] h-[45px] rounded-full object-cover shadow-md transition-all bg-gray-100'
+              />
+              <span className='font-semibold'>
+                {user?.first_name || user?.path}
+              </span>
             </Menu.Button>
             <Transition
               as={Fragment}

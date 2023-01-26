@@ -32,11 +32,17 @@ export default function Home({ setTitle }) {
   }, []);
 
   useEffect(() => {
-    searchFeaturedProducts().then((res) => setFeaturedProducts(res));
+    searchFeaturedProducts({
+      page: 1,
+      pageSize: 5,
+    }).then((res) => setFeaturedProducts(res));
   }, []);
 
   useEffect(() => {
-    searchSellingProducts().then((res) => setSellingProducts(res));
+    searchSellingProducts({
+      page: 1,
+      pageSize: 9,
+    }).then((res) => setSellingProducts(res));
   }, []);
 
   return (
@@ -44,7 +50,9 @@ export default function Home({ setTitle }) {
       <Collection collections={collections} />
       <div className='mx-auto max-w-[1920px] px-4 md:px-8 2xl:px-16'>
         <ShopByCategory />
-        <FeaturedProduct featuredProducts={featuredProducts} />
+        {featuredProducts && featuredProducts?.length > 0 &&
+          <FeaturedProduct featuredProducts={featuredProducts} />
+        }
         <Banner collection={collections && collections[4]} />
         <SellingProduct sellingProducts={sellingProducts} />
         <Exclusive />

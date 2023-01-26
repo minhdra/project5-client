@@ -138,7 +138,7 @@ export default function SearchForm({ showSearchForm, setShowSearchForm }) {
                               <del className='text-sm'>
                                 {item.min_price === item.max_price
                                   ? `${
-                                      (item.min_price * item.discount.percent) /
+                                      (item.min_price * item.discount.discount_percent) /
                                       100
                                     } VND`
                                   : `${item.min_price} VND - ${item.max_price} VND`}

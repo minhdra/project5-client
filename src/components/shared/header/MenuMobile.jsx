@@ -114,7 +114,10 @@ export default function MenuMobile({
                               ? 'bg-gray-100 text-red-600'
                               : 'text-heading')
                           }
-                          onClick={() => setShowCategories(!showCategories)}
+                          onClick={() => {
+                            if (location.pathname.indexOf('/category') < 0)
+                              setShowCategories(!showCategories);
+                          }}
                         >
                           Danh Mục
                           <span className='opacity-30 text-xs mt-1 xl:mt-0.5 w-4 flex justify-end'>

@@ -29,6 +29,11 @@ export default function Collection({ setTitle }) {
   const [sortSelected, setSortSelected] = useState('');
   const [showFilterMobile, setShowFilterMobile] = useState(false);
 
+  const [optionSearch, setOptionSearch] = useState({
+    page: 1,
+    pageSize: 10,
+  });
+
   useEffect(() => {
     setTitle('Draco - Bộ Sưu Tập');
   }, [setTitle]);
@@ -39,15 +44,14 @@ export default function Collection({ setTitle }) {
 
   useEffect(() => {
     if (selectedCollection)
-      searchProducts({
-        page: 1,
-        pageSize: 10,
-        collect: selectedCollection.id,
-        sort: sortSelected?.value ?? '',
-      }).then((res) => setProducts(res));
+    {
+      optionSearch.collect = selectedCollection?.id;
+      optionSearch.sort = sortSelected?.id;
+      searchProducts(optionSearch).then((res) => setProducts(res));
+    }
     else
       setProducts([]);
-  }, [sortSelected, selectedCollection]);
+  }, [sortSelected, selectedCollection, optionSearch]);
 
   useEffect(() => {
     searchCollections().then((res) => setCollections(res));
@@ -70,6 +74,8 @@ export default function Collection({ setTitle }) {
           />
           <Main
             products={products}
+            optionSearch={optionSearch}
+            setOptionSearch={setOptionSearch}
             sortSelected={sortSelected}
             setSortSelected={setSortSelected}
             setShowFilterMobile={setShowFilterMobile}

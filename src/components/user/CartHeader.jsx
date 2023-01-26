@@ -31,7 +31,11 @@ export default function CartHeader({
         (item) => (item.product_price = item.product_price.replace(',', ''))
       );
       result = user.carts.reduce(
-        (prev, curr) => prev + curr.product_price * curr.quantity,
+        (prev, curr) => {
+          if (curr.checked)
+            return prev + curr.product_price * curr.quantity;
+          else return prev;
+        },
         0
       );
     }
@@ -53,6 +57,13 @@ export default function CartHeader({
     setShowAlertDelete(false);
   };
 
+  const handleChangeChecked = (item, index) => {
+    const itemPost = JSON.parse(JSON.stringify(item));
+
+    user.carts[index] = itemPost;
+    handleUpdateCustomerInfo(user);
+  };
+
   return (
     <div>
       <Overlay showOverlay={showCart} setShowOverlay={setShowCart} />
@@ -62,7 +73,7 @@ export default function CartHeader({
             <>
               <animated.div
                 style={styles}
-                className='fixed top-0 right-0 bg-white z-50 flex flex-col w-full sm:w-[378px] h-full justify-between'
+                className='fixed top-0 right-0 bg-white z-50 flex flex-col w-full sm:w-[420px] h-full justify-between'
               >
                 <div>
                   <div className='w-full flex justify-between items-center relative ps-5 md:ps-7 py-0.5 border-b border-gray-100'>
@@ -97,9 +108,20 @@ export default function CartHeader({
                         user.carts.map((item, index) => (
                           <div key={index} className='w-full px-5 md:px-7'>
                             <div
-                              className='group w-full h-auto flex justify-start items-center bg-white py-4 md:py-7 border-b border-gray-100 relative last:border-b-0 opacity-100'
+                              className='w-full h-auto flex justify-start items-center bg-white py-4 md:py-7 border-b border-gray-100 relative last:border-b-0 opacity-100'
                               title={item.product_name}
                             >
+                              <input
+                                type='checkbox'
+                                className='form-checkbox w-6 h-6 border border-red-500 rounded cursor-pointer transition duration-500 ease-in-out focus:ring-offset-0 hover:border-heading focus:outline-none focus:ring-0 focus-visible:outline-none checked:bg-heading checked:hover:bg-heading checked:focus:bg-heading me-4'
+                                name='woman'
+                                defaultValue={item.checked}
+                                defaultChecked={item.checked}
+                                onChange={(e) => {
+                                  item.checked = e.target.checked;
+                                  handleChangeChecked(item, index);
+                                }}
+                              />
                               <div
                                 className='relative flex w-24 md:w-28 h-24 md:h-28 rounded-md overflow-hidden bg-gray-200 flex-shrink-0 cursor-pointer me-4'
                                 onClick={() => {
@@ -118,7 +140,7 @@ export default function CartHeader({
                                   </span>
                                 </span>
                                 <div
-                                  className='absolute top-0 start-0 h-full w-full bg-black bg-opacity-30 md:bg-opacity-0 flex justify-center items-center transition duration-200 ease-in-out md:group-hover:bg-opacity-30'
+                                  className='absolute top-0 start-0 h-full w-full bg-black bg-opacity-30 md:bg-opacity-0 flex justify-center items-center transition duration-200 ease-in-out md:hover:bg-opacity-30'
                                   role='button'
                                 >
                                   <svg
@@ -126,7 +148,7 @@ export default function CartHeader({
                                     fill='currentColor'
                                     strokeWidth='0'
                                     viewBox='0 0 512 512'
-                                    className='relative text-white text-2xl transform md:scale-0 md:opacity-0 transition duration-300 ease-in-out md:group-hover:scale-100 md:group-hover:opacity-100'
+                                    className='relative text-white text-2xl transform md:scale-0 md:opacity-0 transition duration-300 ease-in-out md:hover:scale-100 md:hover:opacity-100'
                                     height='1em'
                                     width='1em'
                                     xmlns='http://www.w3.org/2000/svg'
@@ -137,21 +159,22 @@ export default function CartHeader({
                               </div>
                               <div className='flex flex-col w-full overflow-hidden'>
                                 <Link
-                                  className='truncate text-sm font-semibold text-heading mb-1.5 -mt-1'
+                                  className='truncate text-sm font-semibold text-heading mb-1.5 -mt-1 hover:text-red-500'
                                   to={'/products/' + item.path}
                                 >
                                   {item.product_name}
                                 </Link>
-                                <span className='text-sm text-gray-400 mb-2.5'>
+                                <span className='text-sm text-gray-400 mb-1.5'>
                                   Phân loại : {item.color + ', ' + item.size}
                                 </span>
-                                <span className='text-sm text-gray-400 mb-2.5'>
+                                <span className='text-sm text-gray-400 mb-1.5'>
                                   Giá : &nbsp; ₫
                                   {Number(item.product_price).toLocaleString(
                                     'en'
                                   )}
                                 </span>
-                                <div className='flex items-end justify-between'>
+
+                                <div className='flex items-end justify-between gap-4'>
                                   <div className='group flex items-center justify-between rounded-md overflow-hidden flex-shrink-0 h-8 md:h-9 shadow-navigation bg-heading'>
                                     <button
                                       className='flex items-center justify-center flex-shrink-0 h-full transition ease-in-out duration-300 focus:outline-none w-8 md:w-9 text-white bg-heading hover:bg-gray-600'
@@ -199,7 +222,7 @@ export default function CartHeader({
                                       </svg>
                                     </button>
                                   </div>
-                                  <span className='font-semibold text-sm md:text-sm text-heading leading-5'>
+                                  <span className='font-semibold text-sm md:text-sm text-heading leading-5 mb-1.5'>
                                     ₫
                                     {(
                                       item.product_price * item.quantity

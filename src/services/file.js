@@ -14,7 +14,7 @@ export const uploadMulti = async (data) =>
 
 export const uploadSingle = async (data) =>
   await instance({
-    url: '/image/cloudinary-upload',
+    url: '/image/client-upload',
     method: 'POST',
     data,
   });

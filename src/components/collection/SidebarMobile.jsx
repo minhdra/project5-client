@@ -91,10 +91,10 @@ export default function FilterMobile({
                                         : 'hover:font-semibold ')
                                     }
                                     to={'/collections/' + item.path}
-                                  onClick={() => {
-                                    setSelectedCollection(item);
-                                    setShowFilterMobile(false);
-                                  }}
+                                    onClick={() => {
+                                      setSelectedCollection(item);
+                                      setShowFilterMobile(false);
+                                    }}
                                   >
                                     Bộ Sưu Tập {item.collect_name}
                                   </Link>

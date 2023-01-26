@@ -23,7 +23,11 @@ export default function ShopByCategory() {
       <div className='mb-10 md:mb-11 lg:mb-12 xl:mb-14 lg:pb-1 xl:pb-0'>
         <div className='flex items-center justify-between -mt-2 pb-0.5 mb-4 md:mb-5 lg:mb-6 2xl:mb-7 3xl:mb-8'>
           <h3 className='text-lg md:text-xl lg:text-2xl 2xl:text-3xl xl:leading-10 font-bold text-heading'>
-            {categories ? 'Sản Phẩm Theo Nhãn' : <Skeleton width={400} height={30} />}
+            {categories ? (
+              'Sản Phẩm Theo Nhãn'
+            ) : (
+              <Skeleton width={400} height={30} />
+            )}
           </h3>
         </div>
         <div className='carouselWrapper relative'>
@@ -81,15 +85,15 @@ export default function ShopByCategory() {
                       className='group flex justify-center text-center flex-col'
                       to={'/category/' + item.path}
                     >
-                      <div className='relative inline-flex mb-3.5 md:mb-4 lg:mb-5 xl:mb-6 mx-auto rounded-md overflow-hidden'>
+                      <div className='relative inline-flex mb-3.5 md:mb-4 lg:mb-5 xl:mb-6 mx-auto rounded-md h-[170px] w-[170px] overflow-hidden'>
                         <div className='flex'>
                           <span className='box-border inline-block overflow-hidden opacity-100 m-0 p-0 relative max-w-full'>
-                            <span className='box-border block opacity-100 m-0 p-0 max-w-full'>
+                            <span className='box-border block opacity-100 m-0 p-0 max-w-full h-full'>
                               <img
                                 alt={item.category_name}
                                 aria-hidden='true'
                                 src={item.thumbnail}
-                                className='block max-w-full opacity-100 m-0 p-0'
+                                className='block w-full h-full object-cover opacity-100 m-0 p-0'
                               />
                             </span>
                           </span>

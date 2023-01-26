@@ -93,6 +93,10 @@ export default function Filter({
     setFilters(arr);
   };
 
+  const scrollTo = () => {
+    window.scrollTo(0, 80);
+  };
+
   return (
     <>
       <div className='flex-shrink-0 pe-24 hidden lg:block w-96'>
@@ -155,7 +159,10 @@ export default function Filter({
                           ? 'border-heading'
                           : '')
                       }
-                      onClick={() => setSelectedCategory(item)}
+                      onClick={() => {
+                        setSelectedCategory(item);
+                        scrollTo();
+                      }}
                     >
                       <span className='font-semibold'>
                         {item.category_name}
@@ -179,7 +186,10 @@ export default function Filter({
                           ? 'border-heading'
                           : '')
                       }
-                      onClick={() => setSelectedBrand(item)}
+                      onClick={() => {
+                        setSelectedBrand(item);
+                        scrollTo();
+                      }}
                     >
                       <span className='font-semibold'>{item.brand_name}</span>
                     </div>
@@ -205,6 +215,7 @@ export default function Filter({
                         value={item.value}
                         onClick={(e) => {
                           setPriceFilter(e.target.value);
+                          scrollTo();
                         }}
                       />
                       <span className='ms-4 -mt-0.5'>{item.name}</span>

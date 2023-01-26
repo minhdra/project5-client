@@ -238,9 +238,9 @@ export default function Footer() {
                 <li className='flex items-baseline'>
                   <Link
                     className='transition-colors duration-200 hover:text-black'
-                    to='/pages/stores'
+                    to='/brands'
                   >
-                    Cửa Hàng
+                    Thương Hiệu
                   </Link>
                 </li>
               </ul>

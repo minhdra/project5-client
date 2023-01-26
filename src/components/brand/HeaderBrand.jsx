@@ -1,14 +1,18 @@
-export default function HeaderBrand() {
+export default function HeaderBrand({ isGrid, setIsGrid }) {
   return (
     <>
       <div className='flex items-center justify-between mb-6 xl:mb-8'>
         <h2 className='font-bold text-heading text-lg md:text-xl lg:text-2xl xl:text-3xl'>
-          Super Shops Near You
+          Thương Hiệu
         </h2>
         <div className='flex-shrink-0 flex items-center ms-2'>
           <button
             aria-label='list'
-            className='text-2xl relative top-[1px] transition-all text-heading'
+            className={
+              'text-2xl relative top-[1px] transition-all text-heading ' +
+              (!isGrid ? 'text-red-600' : '')
+            }
+            onClick={() => setIsGrid(false)}
           >
             <svg
               stroke='currentColor'
@@ -27,7 +31,11 @@ export default function HeaderBrand() {
           </button>
           <button
             aria-label='grid'
-            className='text-lg transition-all ms-1.5 text-body'
+            className={
+              'text-lg transition-all ms-1.5 ' +
+              (isGrid ? 'text-red-600' : 'text-body')
+            }
+            onClick={() => setIsGrid(true)}
           >
             <svg
               stroke='currentColor'

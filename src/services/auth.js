@@ -35,18 +35,10 @@ export const login = async (data) =>
     ...data,
   });
 
-export const changePassword = async (data, token) =>
-  await instance.post(
-    '/user/change-password',
-    {
-      ...data,
-    },
-    {
-      headers: {
-        'auth-token': token,
-      },
-    }
-  );
+export const changePassword = async (data) =>
+  await instance.post('/user/change-password-client', {
+    ...data,
+  });
 
 export const remove = async (data, token) =>
   await instance.post(

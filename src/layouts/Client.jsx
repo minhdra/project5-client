@@ -64,8 +64,8 @@ export default function ClientLayout() {
     }, 2000);
   };
 
-  const handleUpdateCustomerInfo = (data) => {
-    return updateInfo(data, storage.token).then((res) => {
+  const handleUpdateCustomerInfo = async (data) => {
+    return await updateInfo(data, storage.token).then((res) => {
       handleGetCustomer();
     });
   };
