@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+
+// Css
+import 'react-loading-skeleton/dist/skeleton.css';
+import 'react-medium-image-zoom/dist/styles.css';
+import 'overlayscrollbars/overlayscrollbars.css';
+import 'swiper/css';
 import './assets/css/app.css';
 
 // Layouts
@@ -24,9 +30,10 @@ import Products from './pages/Products';
 import Page404 from './pages/shared/404';
 import TrackOrder from './pages/TrackOrder';
 import Verify from './pages/Verify';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('Artemis Shop');
 
   useEffect(() => {
     document.title = title;
@@ -58,6 +65,10 @@ function App() {
             <Route
               path='/account/verify'
               element={<Verify setTitle={setTitle} />}
+            />
+            <Route
+              path='/account/reset-password'
+              element={<ResetPassword setTitle={setTitle} />}
             />
             <Route
               path='/checkout'

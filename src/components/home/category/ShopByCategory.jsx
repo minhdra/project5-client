@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { search as searchCategories } from '../../../services/category';
 
-import 'swiper/css';
 
 export default function ShopByCategory() {
   const prevRef = useRef(null);

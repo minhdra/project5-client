@@ -4,7 +4,7 @@ import BannerExplore from '../components/shared/banner/BannerExplore';
 
 export default function Privacy({setTitle}) {
   useEffect(() => {
-    setTitle('Draco - Chính Sách Bảo Mật');
+    setTitle('Chính Sách Bảo Mật | Artemis');
   }, [setTitle]);
 
   useEffect(() => {

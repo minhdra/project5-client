@@ -4,7 +4,7 @@ import { Link, Element } from 'react-scroll';
 const privacies = [
   {
     title: 'Mục đích',
-    content: `Draco cam kết bảo vệ quyền riêng tư của bạn vì chúng tôi cam kết coi trọng con người. Chính sách quyền riêng tư của chúng tôi dưới đây trình bày cách thu thập, sử dụng và bảo vệ thông tin cá nhân của bạn. Nguyên tắc Quyền riêng tư của Quốc gia Demo cũng áp dụng cho chúng tôi. <br /> <br />
+    content: `Artemis cam kết bảo vệ quyền riêng tư của bạn vì chúng tôi cam kết coi trọng con người. Chính sách quyền riêng tư của chúng tôi dưới đây trình bày cách thu thập, sử dụng và bảo vệ thông tin cá nhân của bạn. Nguyên tắc Quyền riêng tư của Quốc gia Demo cũng áp dụng cho chúng tôi. <br /> <br />
 
     Chính sách quyền riêng tư này mô tả các chính sách và quy trình của chúng tôi về việc thu thập, lưu giữ, sử dụng và tiết lộ thông tin cá nhân của bạn và nên được đọc cùng với Điều khoản và điều kiện của chúng tôi. Bằng cách cung cấp thông tin cá nhân của bạn, bạn đồng ý với việc chúng tôi thu thập, sử dụng và tiết lộ thông tin đó theo Chính sách quyền riêng tư này.`,
   },

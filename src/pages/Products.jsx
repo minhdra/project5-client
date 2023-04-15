@@ -33,7 +33,7 @@ export default function Products({ setTitle }) {
   });
 
   useEffect(() => {
-    setTitle('Draco - Sản Phẩm');
+    setTitle('Sản Phẩm | Artemis');
   }, [setTitle]);
 
   useEffect(() => {

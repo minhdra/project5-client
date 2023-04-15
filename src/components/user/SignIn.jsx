@@ -7,6 +7,7 @@ import {
   setLocalStorage,
   setSessionStorage,
 } from '../../utils/storage/storage';
+import ForgotPassword from './ForgotPassword';
 
 export default function SignIn({ showDialog, setShowDialog, setIsLogin }) {
   const transitions = useTransition(showDialog, {
@@ -22,6 +23,8 @@ export default function SignIn({ showDialog, setShowDialog, setIsLogin }) {
   const [isRemember, setIsRemember] = useState(false);
   const [user, setUser] = useState();
 
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+
   const handleSignIn = (e) => {
     e.preventDefault();
 
@@ -34,23 +37,23 @@ export default function SignIn({ showDialog, setShowDialog, setIsLogin }) {
       .then((res) => {
         setUser(res.data.data);
         toast.success(res.data.message, {
-          autoClose: 2000,
+          autoClose: 1000,
         });
 
         if (isRemember)
           setLocalStorage('user', {
             path: res.data.data.username,
-            token: res.data.token,
+            token: res.data.data.accessToken,
           });
         else
           setSessionStorage('user', {
             path: res.data.data.username,
-            token: res.data.token,
+            token: res.data.data.accessToken,
           });
         
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 1000);
       })
       .catch((err) => {
         toast.error(err.response.data.message);
@@ -59,6 +62,7 @@ export default function SignIn({ showDialog, setShowDialog, setIsLogin }) {
 
   return (
     <>
+      <ForgotPassword showDialog={showForgotPassword} setShowDialog={setShowForgotPassword} />
       {transitions(
         (styles, item) =>
           item && (
@@ -120,7 +124,7 @@ export default function SignIn({ showDialog, setShowDialog, setIsLogin }) {
                           </Link>
                         </div>
                         <p className='text-sm md:text-base text-body mt-2 mb-8 sm:mb-10'>
-                          Chào Mừng Bạn Đến Với <b>Draco</b>
+                          Chào Mừng Bạn Đến Với <b>Artemis</b>
                         </p>
                       </div>
                       <form
@@ -219,6 +223,7 @@ export default function SignIn({ showDialog, setShowDialog, setIsLogin }) {
                               <button
                                 type='button'
                                 className='text-end text-sm text-heading ps-3 underline hover:no-underline focus:outline-none'
+                                onClick={()=>setShowForgotPassword(true)}
                               >
                                 Quên Mật Khẩu?
                               </button>

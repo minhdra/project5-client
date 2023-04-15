@@ -6,7 +6,7 @@ import BannerExplore from '../components/shared/banner/BannerExplore';
 
 export default function Checkout({ setTitle }) {
   useEffect(() => {
-    setTitle('Draco - Thanh Toán');
+    setTitle('Thanh Toán | Artemis');
   }, [setTitle]);
   
   useEffect(() => {

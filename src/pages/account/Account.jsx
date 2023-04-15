@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { toast } from 'react-toastify';
 import DashboardAccount from '../../components/account/dashboard/DashboardAccount';
 import SidebarAccount from '../../components/account/SidebarAccount';
 import Subscribe from '../../components/home/subscribe/Subscribe';
@@ -14,7 +13,7 @@ export default function Account({ setTitle }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTitle('Thông Tin Tài Khoản - Draco')
+    setTitle('Thông Tin Tài Khoản | Artemis')
   }, [setTitle]);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ export default function Account({ setTitle }) {
       getByPathCustomer(params.slug)
         .then((res) => setUser(res))
         .catch((err) => {
-          toast.error(err.response.data.message);
+          //toast.error(err.response.data.message);
           navigate('/');
         });
     }

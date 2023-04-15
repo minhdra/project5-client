@@ -1,4 +1,4 @@
-import instance from './axios';
+import {instance} from './axios';
 
 export const search = async (data, token) =>
   (
@@ -35,8 +35,15 @@ export const login = async (data) =>
     ...data,
   });
 
+export const refreshToken = async (data) => await instance.post('/user/refresh-token', {...data});
+
 export const changePassword = async (data) =>
   await instance.post('/user/change-password-client', {
+    ...data,
+  });
+
+export const resetPassword = async (data) =>
+  await instance.post('/user/reset-password', {
     ...data,
   });
 

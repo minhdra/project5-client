@@ -71,6 +71,7 @@ export default function FilterMobile({
       }
       
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -92,6 +93,7 @@ export default function FilterMobile({
       }
       
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBrand]);
 
   const handleRemoveFilter = (item, index) => {

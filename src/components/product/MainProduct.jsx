@@ -57,7 +57,7 @@ export default function Main({
       <div className='w-full lg:-ms-9'>
         <div className='flex justify-between items-center mb-7'>
           <h1 className='text-heading text-2xl font-bold hidden lg:inline-flex pb-1'>
-            {products ? 'Draco' : <Skeleton height={30} width={150} />}
+            {products ? 'Artemis' : <Skeleton height={30} width={150} />}
           </h1>
           <button
             className='lg:hidden text-heading text-sm px-4 py-2 font-semibold border border-gray-300 rounded-md flex items-center transition duration-200 ease-in-out focus:outline-none hover:bg-gray-200'

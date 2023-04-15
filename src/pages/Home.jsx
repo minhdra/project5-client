@@ -16,7 +16,7 @@ import {
 
 export default function Home({ setTitle }) {
   useEffect(() => {
-    setTitle('Draco - Trang Chủ');
+    setTitle('God of Hunt | Artemis');
   }, [setTitle]);
 
   useEffect(() => {

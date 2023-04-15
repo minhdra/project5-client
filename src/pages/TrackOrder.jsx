@@ -11,7 +11,7 @@ export default function TrackOrder({ setTitle }) {
   const [order, setOrder] = useState();
 
   useEffect(() => {
-    setTitle('Draco - Tìm Kiếm Đơn Hàng');
+    setTitle('Tìm Kiếm Đơn Hàng | Artemis');
   }, [setTitle]);
 
   useEffect(() => {

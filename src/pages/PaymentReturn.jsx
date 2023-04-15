@@ -14,7 +14,7 @@ import { getSessionStorage, removeSessionStorage } from '../utils/storage/storag
 // http://localhost:3000/payment/payment-return?vnp_Amount=385200000&vnp_BankCode=NCB&vnp_BankTranNo=VNP13889746&vnp_CardType=ATM&vnp_OrderInfo=MINHDRA1+THANH+TOAN+HOA+DON+20221129111813%2C+NGAY%3A+29-18-2022+11%3A11&vnp_PayDate=20221129111847&vnp_ResponseCode=00&vnp_TmnCode=HG2EMSPD&vnp_TransactionNo=13889746&vnp_TransactionStatus=00&vnp_TxnRef=20221129111813&vnp_SecureHash=8ec8c25bc60f5b33941b269d4790f243cd76c1ad2895d736861c2fc3f2f1c94d8c9d5518d93fca21a57eb81cadaf0bfd493826cbeed8341cfa5e927f892c2c27
 export default function PaymentReturn({ setTitle }) {
   useEffect(() => {
-    setTitle('Draco - Thông Tin Hóa Đơn');
+    setTitle('Thông Tin Hóa Đơn | Artemis');
   }, [setTitle]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function PaymentReturn({ setTitle }) {
   useEffect(() => {
     if (params)
       getById(params.vnp_TxnRef).then((res) => {
-        console.log();
+        
         if (res) setOrder(res);
         else setOrder(JSON.parse(JSON.stringify(getSessionStorage('order'))));
       });

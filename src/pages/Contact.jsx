@@ -4,7 +4,7 @@ import BannerExplore from '../components/shared/banner/BannerExplore';
 
 export default function Contact({ setTitle }) {
   useEffect(() => {
-    setTitle('Draco - Liên Hệ Chúng Tôi');
+    setTitle('Liên Hệ Chúng Tôi | Artemis');
   }, [setTitle]);
 
   useEffect(() => {

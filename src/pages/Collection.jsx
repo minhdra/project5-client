@@ -35,7 +35,7 @@ export default function Collection({ setTitle }) {
   });
 
   useEffect(() => {
-    setTitle('Draco - Bộ Sưu Tập');
+    setTitle('Bộ Sưu Tập | Artemis');
   }, [setTitle]);
 
   useEffect(() => {

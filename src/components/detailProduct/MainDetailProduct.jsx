@@ -5,14 +5,14 @@ import { Autoplay, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Collapse } from 'react-collapse';
 import Zoom from 'react-medium-image-zoom';
-
-// stylesheet
-import 'swiper/css';
-import 'react-medium-image-zoom/dist/styles.css';
 import UserForm from '../user/UserForm';
 import { toast } from 'react-toastify';
 import Review from './Review';
 import { calculateDiscount } from '../../utils/constrants/constrants';
+
+// stylesheet
+
+
 
 export default function Main({ product, user, handleUpdateCustomerInfo }) {
   const prevRef = useRef(null);
@@ -361,7 +361,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
                   <>
                     Tổng:{' '}
                     <span className='text-red-600'>
-                      {'₫' + product.variants[indexColor].sell_price}
+                      {'₫' + product.variants[indexColor].sell_price || 0}
                     </span>{' '}
                     x {quantity}
                   </>
@@ -371,6 +371,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
               </span>
             </div>
           </div>
+          
           <div className='flex items-center space-s-4 md:pe-32 lg:pe-12 2xl:pe-32 3xl:pe-48 border-b border-gray-300 py-8'>
             <div className='group flex items-center justify-between rounded-md overflow-hidden flex-shrink-0 border h-11 md:h-12 border-gray-300'>
               <button
@@ -461,6 +462,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
               </span>
             )}
           </div>
+
           <div className='flex items-center space-s-4 md:pe-32 lg:pe-12 2xl:pe-32 3xl:pe-48 border-b border-gray-300 py-8'>
             <button
               data-variant='slim'
@@ -493,11 +495,12 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
               className={
                 'text-[13px] md:text-sm leading-4 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold font-body text-center justify-center border border-transparent placeholder-white focus-visible:outline-none focus:outline-none rounded h-11 md:h-12 px-5 bg-heading text-white py-2 transform-none normal-case hover:text-white  hover:shadow-cart whitespace-nowrap bg-slate-500 hover:bg-slate-600 hover:-translate-y-1'
               }
-              onClick={() => console.log('clicked!')}
+              // onClick={() => console.log('clicked!')}
             >
               <span className='py-2'>Mua Ngay</span>
             </button>
           </div>
+
           <div className='py-6'>
             <ul className='text-sm space-y-5 pb-1'>
               <li>

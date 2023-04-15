@@ -53,6 +53,7 @@ export default function Filter({
         },
       ]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function Filter({
         },
       ]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBrand]);
 
   const handleRemoveFilter = (item, index) => {

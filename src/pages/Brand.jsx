@@ -7,7 +7,7 @@ import Subscribe from '../components/home/subscribe/Subscribe';
 
 export default function Brand({ setTitle }) {
   useEffect(() => {
-    setTitle('Draco - Danh Sách Thương Hiệu ');
+    setTitle('Danh Sách Thương Hiệu | Artemis ');
   }, [setTitle]);
 
   useEffect(() => {

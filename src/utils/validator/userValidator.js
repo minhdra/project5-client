@@ -31,6 +31,23 @@ export const registerValidator = (data) => {
   return rule.validate(data, { abortEarly: false });
 };
 
+export const resetPasswordValidator = (data) => {
+  const rule = Joi.object({
+    ...data,
+    email: Joi.string()
+      .regex(/^([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})$/i)
+      .required()
+      .messages({
+        'string.pattern.base': 'Không đúng định dạng email.',
+      }),
+  }).messages({
+    'string.empty': 'Không thể để trống',
+    'any.required': 'Không thể để trống',
+  });
+
+  return rule.validate(data, { abortEarly: false });
+};
+
 export const customerValidator = (data) => {
   const rule = Joi.object({
     ...data,
@@ -64,13 +81,7 @@ export const customerValidator = (data) => {
 export const changePasswordValidator = (data) => {
   const rule = Joi.object({
     ...data,
-    oldPassword: Joi.string()
-      .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,12}$/i)
-      .required()
-      .messages({
-        'string.pattern.base':
-          'Mật khẩu phải có độ dài 6-12, gồm cả ký tự, số và ký tự đặc biệt.',
-      }),
+    oldPassword: Joi.string().required(),
     newPassword: Joi.string()
       .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,12}$/i)
       .required()

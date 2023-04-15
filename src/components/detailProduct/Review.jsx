@@ -84,6 +84,7 @@ export default function Review({ product, user, rating, setRating }) {
       filArray.unshift({ index: 0, name: 'Tất Cả' });
       setFilterStars(filArray);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSendReview = (e) => {

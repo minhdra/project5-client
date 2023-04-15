@@ -57,11 +57,11 @@ export default function ClientLayout() {
     removeSessionStorage('user');
 
     toast.warning('Đang đăng xuất', {
-      autoClose: 2000,
+      autoClose: 500,
     });
     setTimeout(() => {
       window.location.reload();
-    }, 2000);
+    }, 500);
   };
 
   const handleUpdateCustomerInfo = async (data) => {

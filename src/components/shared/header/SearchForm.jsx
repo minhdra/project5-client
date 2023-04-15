@@ -5,7 +5,6 @@ import Overlay from '../overlay/Overlay';
 
 import { searchProducts } from '../../../services/product';
 
-import 'overlayscrollbars/overlayscrollbars.css';
 import { Link } from 'react-router-dom';
 
 export default function SearchForm({ showSearchForm, setShowSearchForm }) {

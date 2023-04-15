@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { toast } from 'react-toastify';
 import PasswordAccount from '../../components/account/password/PasswordAccount';
 import SidebarAccount from '../../components/account/SidebarAccount';
 import Subscribe from '../../components/home/subscribe/Subscribe';
@@ -14,7 +13,7 @@ export default function AccountPasswordPage({ setTitle }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTitle('Đổi Mật Khẩu - Draco')
+    setTitle('Đổi Mật Khẩu | Artemis')
   }, [setTitle]);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ export default function AccountPasswordPage({ setTitle }) {
       getByPathCustomer(params.slug)
         .then((res) => setUser(res))
         .catch((err) => {
-          toast.error(err.response.data.message);
+          // toast.error(err.response.data.message);
           navigate('/');
         });
     }

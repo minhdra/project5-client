@@ -28,8 +28,8 @@ export default function Category({ setTitle }) {
 
   useEffect(() => {
     setTitle(
-      'Draco - Danh Mục ' +
-        (category?.category_name || subCategory?.sub_category_name || '')
+      (category?.category_name || subCategory?.sub_category_name || '') +
+        ' | Artemis'
     );
   }, [setTitle, category, subCategory]);
 
@@ -69,7 +69,11 @@ export default function Category({ setTitle }) {
             name={category?.category_name || subCategory?.sub_category_name}
           />
 
-          <Main products={products} optionSearch={optionSearch} setOptionSearch={setOptionSearch} />
+          <Main
+            products={products}
+            optionSearch={optionSearch}
+            setOptionSearch={setOptionSearch}
+          />
 
           <Subscribe
             classes={

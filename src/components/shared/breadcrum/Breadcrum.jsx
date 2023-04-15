@@ -7,7 +7,7 @@ export default function Breadcrumb({ breadcrumbs }) {
       <div className='chawkbazarBreadcrumb flex items-center'>
         <ol className='flex items-center w-full overflow-hidden'>
           <li className='text-sm text-body px-2.5 transition duration-200 ease-in first:ps-0 last:pe-0 hover:text-heading font-semibold'>
-            <Link to='/'>Draco</Link>
+            <Link to='/'>Artemis</Link>
           </li>
           {breadcrumbs &&
             breadcrumbs.map((item, index) => (

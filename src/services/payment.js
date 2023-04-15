@@ -1,4 +1,4 @@
-import instance from './axios';
+import {instance} from './axios';
 
 export const createPaymentUrl = async (data) => (await instance.post('/payment/create_payment_url', {
   ...data

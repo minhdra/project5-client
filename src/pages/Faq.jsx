@@ -4,7 +4,7 @@ import BannerExplore from '../components/shared/banner/BannerExplore';
 
 export default function Faq({setTitle}) {
   useEffect(() => {
-    setTitle('Draco - Các Câu Hỏi Thường Gặp');
+    setTitle('Các Câu Hỏi Thường Gặp | Artemis');
   }, [setTitle]);
 
   useEffect(() => {

@@ -35,7 +35,7 @@ export default function DetailProduct({ setTitle }) {
   }, [product]);
 
   useEffect(() => {
-    if (product) setTitle('Draco - ' + product.product_name);
+    if (product) setTitle(product.product_name + ' | Artemis');
   }, [product, setTitle]);
 
   useEffect(() => {

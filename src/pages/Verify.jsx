@@ -6,7 +6,7 @@ import { getByIdClient, verify } from '../services/auth';
 // i is _id, name is username
 export default function Verify({ setTitle }) {
   useEffect(() => {
-    setTitle('Draco - Xác Thực Tài Khoản');
+    setTitle('Xác Thực Tài Khoản | Artemis');
   }, [setTitle]);
 
   useEffect(() => {
@@ -66,10 +66,10 @@ export default function Verify({ setTitle }) {
               {user ? (
                 <>
                   <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
-                    Chào mừng bạn ({username}) đến với Draco Store
+                    Chào mừng bạn ({username}) đến với Artemis Store
                   </h5>
                   <div className='mb-3 font-normal text-gray-700 dark:text-gray-400'>
-                    {messageVerify} <br /> Cảm ơn bạn đã tin tưởng Draco
+                    {messageVerify} <br /> Cảm ơn bạn đã tin tưởng Artemis
                     Store.
                   </div>
                 </>

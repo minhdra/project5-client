@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import CartHeader from '../../user/CartHeader';
 import MenuMobile from './MenuMobile';
+import { logo } from '../../../common/other';
 
 export default function Header({
   setShowDialog,
@@ -65,8 +66,8 @@ export default function Header({
                 }}
               >
                 <img
-                  alt='ChawkBazar'
-                  src={require('../../../assets/images/logos/logo.svg').default}
+                  alt={logo.title}
+                  src={require('../../../assets/images/logos/' + logo.nameFile)}
                   style={{
                     position: 'absolute',
                     inset: '0px',
