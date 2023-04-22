@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 export default function SearchForm({ showSearchForm, setShowSearchForm }) {
   const [keyword, setKeyword] = useState('');
 
+  const [isLoaded, setIsLoaded] = useState(true);
+
   const [products, setProducts] = useState();
 
   const handleSearch = (e) => {
@@ -17,11 +19,18 @@ export default function SearchForm({ showSearchForm, setShowSearchForm }) {
   };
 
   useEffect(() => {
-    if (keyword)
+    if (keyword) {
+      setIsLoaded(false);
       searchProducts({
         product_name: keyword,
-      }).then((res) => setProducts(res));
-    else setProducts();
+      }).then((res) => {
+        setIsLoaded(true);
+        setProducts(res);
+      });
+    } else {
+      setIsLoaded(true);
+      setProducts();
+    }
   }, [keyword]);
 
   return (
@@ -100,60 +109,82 @@ export default function SearchForm({ showSearchForm, setShowSearchForm }) {
               </form>
             </div>
 
-            {products && products?.length > 0 && (
-              <div className='bg-white flex flex-col rounded-md overflow-hidden h-full max-h-[64vh] lg:max-h-[550px]'>
-                <OverlayScrollbarsComponent
-                  options={{ scrollbars: { autoHide: true } }}
-                  defer
-                >
-                  <div className='h-full'>
-                    {products.map((item) => (
-                      <div
-                        key={item._id}
-                        className=' p-5 border-b border-gray-150 relative last:border-b-0 transition-all hover:bg-gray-300'
-                      >
-                        <Link
-                          className='group w-full h-auto flex justify-start items-center'
-                          to={'/products/' + item.path}
-                          onClick={() => setShowSearchForm(false)}
-                        >
-                          <div className='relative flex w-24 h-24 rounded-md overflow-hidden bg-gray-200 flex-shrink-0 cursor-pointer me-4'>
-                            <span className='box-border inline-block overflow-hidden opacity-100 m-0 p-0 relative max-w-full'>
-                              <span className='box-border block opacity-100 m-0 p-0 max-w-full'>
-                                <img
-                                  alt=''
-                                  aria-hidden='true'
-                                  src={item.thumbnail}
-                                  className='block max-w-full opacity-100 m-0 p-0'
-                                />
-                              </span>
-                            </span>
+            {isLoaded ? (
+              products ? (
+                products.length > 0 ? (
+                  <div className='bg-white flex flex-col rounded-md overflow-hidden h-full max-h-[64vh] lg:h-[550px]'>
+                    <OverlayScrollbarsComponent
+                      options={{ scrollbars: { autoHide: true } }}
+                      defer
+                    >
+                      <div className='h-full'>
+                        {products.map((item) => (
+                          <div
+                            key={item._id}
+                            className=' p-5 border-b border-gray-150 relative last:border-b-0 transition-all hover:bg-gray-300'
+                          >
+                            <Link
+                              className='group w-full h-auto flex justify-start items-center'
+                              to={'/products/' + item.path}
+                              onClick={() => setShowSearchForm(false)}
+                            >
+                              <div className='relative flex w-24 h-24 rounded-md overflow-hidden bg-gray-200 flex-shrink-0 cursor-pointer me-4'>
+                                <span className='box-border inline-block overflow-hidden opacity-100 m-0 p-0 relative max-w-full'>
+                                  <span className='box-border block opacity-100 m-0 p-0 max-w-full'>
+                                    <img
+                                      alt=''
+                                      aria-hidden='true'
+                                      src={item.thumbnail}
+                                      className='block max-w-full opacity-100 m-0 p-0'
+                                    />
+                                  </span>
+                                </span>
+                              </div>
+                              <div className='flex flex-col w-full overflow-hidden'>
+                                <h3 className='truncate text-base font-semibold text-heading mb-2'>
+                                  {item.product_name}
+                                </h3>
+                                {item.discount && (
+                                  <del className='text-sm'>
+                                    {item.min_price === item.max_price
+                                      ? `${
+                                          (item.min_price *
+                                            item.discount.discount_percent) /
+                                          100
+                                        } VND`
+                                      : `${item.min_price} VND - ${item.max_price} VND`}
+                                  </del>
+                                )}
+                                <div className='text-heading font-segoe text-sm 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0'>
+                                  {item.min_price === item.max_price
+                                    ? `${item.min_price} VND`
+                                    : `${item.min_price} VND - ${item.max_price} VND`}
+                                </div>
+                              </div>
+                            </Link>
                           </div>
-                          <div className='flex flex-col w-full overflow-hidden'>
-                            <h3 className='truncate text-base font-semibold text-heading mb-2'>
-                              {item.product_name}
-                            </h3>
-                            {item.discount && (
-                              <del className='text-sm'>
-                                {item.min_price === item.max_price
-                                  ? `${
-                                      (item.min_price * item.discount.discount_percent) /
-                                      100
-                                    } VND`
-                                  : `${item.min_price} VND - ${item.max_price} VND`}
-                              </del>
-                            )}
-                            <div className='text-heading font-segoe text-sm 3xl:mt-0.5 pe-2 md:pe-0 lg:pe-2 2xl:pe-0'>
-                              {item.min_price === item.max_price
-                                ? `${item.min_price} VND`
-                                : `${item.min_price} VND - ${item.max_price} VND`}
-                            </div>
-                          </div>
-                        </Link>
+                        ))}
                       </div>
-                    ))}
+                    </OverlayScrollbarsComponent>
                   </div>
-                </OverlayScrollbarsComponent>
+                ) : (
+                  <div className='bg-white flex flex-col rounded-md overflow-hidden h-full max-h-[64vh] lg:max-h-[550px]'>
+                    <span className='py-4 px-6'>
+                      Không tìm thấy sản phẩm nào
+                    </span>
+                  </div>
+                )
+              ) : (
+                <></>
+              )
+            ) : (
+              <div className='bg-white rounded-md overflow-hidden h-full max-h-[64vh] lg:max-h-[550px] text-center'>
+                <div class='lds-ellipsis'>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
               </div>
             )}
           </div>

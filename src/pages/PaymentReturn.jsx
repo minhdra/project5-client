@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { Link, useOutletContext, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import codeResponseVnPay from '../assets/jsons/code_response_vnpay.json';
 import { sendOrder } from '../services/email';
@@ -36,14 +36,14 @@ export default function PaymentReturn({ setTitle }) {
     setParams(arr);
   }, [searchParams]);
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (params)
       getById(params.vnp_TxnRef).then((res) => {
-        
         if (res) setOrder(res);
         else setOrder(JSON.parse(JSON.stringify(getSessionStorage('order'))));
-      });
-  }, [params]);
+      }).catch(err => navigate('/products'));
+  }, [params, navigate]);
 
   useEffect(() => {
     if (order && params && order?.payment_type === 'vnpay') {
@@ -87,7 +87,7 @@ export default function PaymentReturn({ setTitle }) {
         }}
       >
         <div className='flex justify-center items-start min-h-[50vh]'>
-          <div className='max-w-md bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 p-4 sm:p-8 min-w-[50vw]'>
+          <div className='max-w-md bg-white border border-gray-200 rounded-lg shadow-md p-4 sm:p-8 min-w-[50vw]'>
             <h1 className='text-xl text-center font-bold'>
               {codeResponseVnPay[params?.vnp_ResponseCode] ||
                 'Thông Tin Đơn Hàng'}

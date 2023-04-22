@@ -112,7 +112,7 @@ export default function CartHeader({
                                   type='checkbox'
                                   className='form-checkbox w-6 h-6 border border-red-500 rounded cursor-pointer transition duration-500 ease-in-out focus:ring-offset-0 hover:border-heading focus:outline-none focus:ring-0 focus-visible:outline-none checked:bg-heading checked:hover:bg-heading checked:focus:bg-heading me-4'
                                   name='woman'
-                                  defaultValue={item.checked}
+                                  // defaultValue={item.checked}
                                   defaultChecked={item.checked}
                                   onChange={(e) => {
                                     item.checked = e.target.checked;
@@ -137,7 +137,7 @@ export default function CartHeader({
                                     </span>
                                   </span>
                                   <div
-                                    className='absolute top-0 start-0 h-full w-full bg-black bg-opacity-30 md:bg-opacity-0 flex justify-center items-center transition duration-200 ease-in-out md:hover:bg-opacity-30'
+                                    className='absolute top-0 start-0 h-full w-full bg-black bg-opacity-30 md:bg-opacity-0 flex justify-center items-center transition duration-200 ease-in-out md:hover:bg-opacity-30 group'
                                     role='button'
                                   >
                                     <svg
@@ -145,9 +145,9 @@ export default function CartHeader({
                                       fill='currentColor'
                                       strokeWidth='0'
                                       viewBox='0 0 512 512'
-                                      className='relative text-white text-2xl transform md:scale-0 md:opacity-0 transition duration-300 ease-in-out md:hover:scale-100 md:hover:opacity-100'
-                                      height='1em'
-                                      width='1em'
+                                      className='relative text-white text-2xl transform opacity-0 transition duration-300 ease-in-out md:group-hover:scale-100 md:group-hover:opacity-100'
+                                      height='24'
+                                      width='24'
                                       xmlns='http://www.w3.org/2000/svg'
                                     >
                                       <path d='M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm52.7 283.3L256 278.6l-52.7 52.7c-6.2 6.2-16.4 6.2-22.6 0-3.1-3.1-4.7-7.2-4.7-11.3 0-4.1 1.6-8.2 4.7-11.3l52.7-52.7-52.7-52.7c-3.1-3.1-4.7-7.2-4.7-11.3 0-4.1 1.6-8.2 4.7-11.3 6.2-6.2 16.4-6.2 22.6 0l52.7 52.7 52.7-52.7c6.2-6.2 16.4-6.2 22.6 0 6.2 6.2 6.2 16.4 0 22.6L278.6 256l52.7 52.7c6.2 6.2 6.2 16.4 0 22.6-6.2 6.3-16.4 6.3-22.6 0z'></path>
@@ -158,6 +158,7 @@ export default function CartHeader({
                                   <Link
                                     className='truncate text-sm font-semibold text-heading mb-1.5 -mt-1 hover:text-red-500'
                                     to={'/products/' + item.path}
+                                    onClick={() => setShowCart(false)}
                                   >
                                     {item.product_name}
                                   </Link>

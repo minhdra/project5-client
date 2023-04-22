@@ -68,6 +68,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
             product_price,
             thumbnail,
             checked: false,
+            path: product.path,
           });
         else
         {
@@ -83,6 +84,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
               quantity,
               product_price,
               thumbnail,
+              path: product.path,
             });
           else if (carts[c].size !== size)
             carts.push({
@@ -94,6 +96,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
               quantity,
               product_price,
               thumbnail,
+              path: product.path,
             });
         }
         userClone.carts = carts;

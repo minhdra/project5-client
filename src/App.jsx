@@ -4,9 +4,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 // Css
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-medium-image-zoom/dist/styles.css';
-import 'overlayscrollbars/overlayscrollbars.css';
 import 'swiper/css';
 import './assets/css/app.css';
+import 'overlayscrollbars/overlayscrollbars.css';
 
 // Layouts
 import ClientLayout from './layouts/Client';

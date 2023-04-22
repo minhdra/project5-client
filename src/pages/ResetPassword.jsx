@@ -34,7 +34,7 @@ export default function ResetPassword({ setTitle }) {
     <>
       <div className='mx-auto max-w-[1920px] px-4 md:px-8 2xl:px-16 py-4'>
         <div className='flex justify-center items-center min-h-[50vh]'>
-          <div className='max-w-md bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 min-w-[30vw]'>
+          <div className='max-w-md bg-white border border-gray-200 rounded-lg shadow-md min-w-[30vw]'>
             <div className='p-5 text-center'>
               <h1 className='text-2xl font-bold mb-4 uppercase'>
                 Your Password

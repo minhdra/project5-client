@@ -73,9 +73,9 @@ export default function DialogListDelivery({
                   className='w-full md:w-auto absolute left-1/2 transform -translate-x-1/2 shadow-xl h-auto max-h-full top-1/2 -translate-y-1/2 rounded-lg'
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <div className='p-6 rounded-lg bg-white dark:bg-red-200 z-[100]'>
+                  <div className='p-6 rounded-lg bg-white z-[100]'>
                     <div className='flex items-center justify-between gap-8'>
-                      <h3 className='text-xl font-medium uppercase text-red-900 dark:text-red-800'>
+                      <h3 className='text-xl font-medium uppercase text-red-900'>
                         Danh Sách Địa Chỉ
                       </h3>
                       <button
@@ -187,7 +187,7 @@ export default function DialogListDelivery({
                       </button>
                       <button
                         type='button'
-                        className='text-gray-900 bg-transparent border border-gray-900 hover:bg-gray-100 hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded text-sm px-4 py-2 text-center dark:border-red-800 dark:text-red-800 dark:hover:text-white'
+                        className='text-gray-900 bg-transparent border border-gray-900 hover:bg-gray-100 hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded text-sm px-4 py-2 text-center'
                         data-dismiss-target='#alert-additional-content-2'
                         aria-label='Close'
                         onClick={() => setShowDialog(false)}

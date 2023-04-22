@@ -54,7 +54,7 @@ export default function Verify({ setTitle }) {
     <>
       <div className='mx-auto max-w-[1920px] px-4 md:px-8 2xl:px-16 bg-gray-100 py-4'>
         <div className='flex justify-center items-center min-h-[50vh]'>
-          <div className='max-w-md bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700'>
+          <div className='max-w-md bg-white border border-gray-200 rounded-lg shadow-md'>
             <div>
               <img
                 className='rounded-t-lg'
@@ -65,22 +65,22 @@ export default function Verify({ setTitle }) {
             <div className='p-5 text-center'>
               {user ? (
                 <>
-                  <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
+                  <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900'>
                     Chào mừng bạn ({username}) đến với Artemis Store
                   </h5>
-                  <div className='mb-3 font-normal text-gray-700 dark:text-gray-400'>
+                  <div className='mb-3 font-normal text-gray-700'>
                     {messageVerify} <br /> Cảm ơn bạn đã tin tưởng Artemis
                     Store.
                   </div>
                 </>
               ) : (
-                <div className='mb-3 font-normal text-gray-700 dark:text-gray-400'>
+                <div className='mb-3 font-normal text-gray-700'>
                   Có gì đó không đúng 😫!
                 </div>
               )}
               <Link
                 to='/'
-                className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800'
+                className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300'
               >
                 Mua Sắm Thôi Nào
                 <svg
