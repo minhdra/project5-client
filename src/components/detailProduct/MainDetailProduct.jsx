@@ -12,8 +12,6 @@ import { calculateDiscount } from '../../utils/constrants/constrants';
 
 // stylesheet
 
-
-
 export default function Main({ product, user, handleUpdateCustomerInfo }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -53,9 +51,12 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
         const product_name = product.product_name;
         const color = product.variants[indexColor].color;
         const hex = product.variants[indexColor].hex;
-        const size = product.variants[indexColor].has_size ? product.variants[indexColor].list_sizes[indexSize].size : '';
-        const product_price = product.variants[indexColor].sell_price;
-        const thumbnail = product.thumbnail;
+        const size = product.variants[indexColor].has_size
+          ? product.variants[indexColor].list_sizes[indexSize].size
+          : '';
+        let product_price = calculateDiscount(product.variants[indexColor].sell_price, product?.discount?.discount_percent || 0);
+        product_price = product_price.replace(/,/g, '');
+        const thumbnail = product?.variants[indexColor]?.images[0]
 
         if (c < 0)
           carts.push({
@@ -70,8 +71,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
             checked: false,
             path: product.path,
           });
-        else
-        {
+        else {
           if (carts[c].color === color && carts[c].size === size)
             carts[c].quantity += quantity;
           else if (carts[c].color !== color)
@@ -243,7 +243,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
         <div className='col-span-4 pt-8 lg:pt-0'>
           <div className='pb-7 mb-7 border-b border-gray-300'>
             <h2 className='text-heading text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold hover:text-black mb-3.5'>
-              {(product?.product_name) ?? <Skeleton width={400} height={30} />}
+              {product?.product_name ?? <Skeleton width={400} height={30} />}
             </h2>
             <p className='text-body text-sm lg:text-base leading-6 lg:leading-8'>
               {product ? <span></span> : <Skeleton count={5} />}
@@ -363,8 +363,14 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
                 {product && product?.variants[indexColor] ? (
                   <>
                     Tổng:{' '}
-                    <span className='text-red-600'>
+                    {/* <span className='text-red-600'>
                       {'₫' + product.variants[indexColor].sell_price || 0}
+                    </span>{' '} */}
+                    <span className='text-red-600'>
+                      {`₫${calculateDiscount(
+                        product.variants[indexColor].sell_price,
+                        product?.discount?.discount_percent || 0
+                      )}`}
                     </span>{' '}
                     x {quantity}
                   </>
@@ -374,7 +380,7 @@ export default function Main({ product, user, handleUpdateCustomerInfo }) {
               </span>
             </div>
           </div>
-          
+
           <div className='flex items-center space-s-4 md:pe-32 lg:pe-12 2xl:pe-32 3xl:pe-48 border-b border-gray-300 py-8'>
             <div className='group flex items-center justify-between rounded-md overflow-hidden flex-shrink-0 border h-11 md:h-12 border-gray-300'>
               <button

@@ -43,8 +43,9 @@ export default function MainBrand({ brands, isGrid }) {
                   }
                 >
                   <h4
+                    title={item.brand_name}
                     className={
-                      'text-heading font-semibold text-sm sm:leading-6 leading-7 md:text-base xl:text-lg ' +
+                      'text-heading font-semibold text-sm sm:leading-6 leading-7 md:text-base xl:text-lg truncate ' +
                       (isGrid ? '2xl:text-xl mb-1.5' : 'mb-0.5')
                     }
                   >
@@ -69,6 +70,7 @@ export default function MainBrand({ brands, isGrid }) {
                       </svg>
                     </span>
                     <span
+                      className='truncate w-[200px]'
                       dangerouslySetInnerHTML={{ __html: item.description }}
                     ></span>
                   </p>
